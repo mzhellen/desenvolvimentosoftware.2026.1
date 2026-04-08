@@ -24,7 +24,7 @@ export default function AuthPage() {
         password,
       });
       if (error) alert("Erro ao entrar: " + error.message);
-      else router.push("/"); // Vai para a home após logar
+      else router.push("/home"); // Vai para a home após logar
     } else {
       // Lógica de CADASTRO
       const { error } = await supabase.auth.signUp({
