@@ -40,9 +40,9 @@ When(/^(?:eu )?clico no botão "([^"]*)"$/, async function (textoBotao) {
   await page.getByRole('button', { name: textoBotao }).click();
 });
 
-Then('eu devo ser redirecionado para a página inicial', async function () {
-  await page.waitForURL('http://localhost:3000/');
-  assert.strictEqual(page.url(), 'http://localhost:3000/');
+Then('eu devo ser redirecionado para a página home', async function () {
+  await page.waitForURL('http://localhost:3000/home');
+  assert.strictEqual(page.url(), 'http://localhost:3000/home');
 });
 
 Then('eu devo ver uma mensagem de erro', async function () {
@@ -70,11 +70,19 @@ Given('que eu estou logado com o usuário {string} e a senha {string}', async fu
   await page.getByRole('button', { name: 'Acessar Conta' }).click();
   
   // 4. Aguarda chegar na home para garantir que o login funcionou e o botão renderizou
-  await page.waitForURL('http://localhost:3000/');
+  await page.waitForURL('http://localhost:3000/home');
+});
 
-  // 5. Comando para ele clicar no botão de logout "Sair"
+Then('eu acesso a pagina de perfil', async function () {
+  // 1. Clica no LINK da página de perfil (Role: 'link')
+  await page.getByRole('link', { name: 'Perfil' }).click();
+
+  // 2. Aguarda o redirecionamento acontecer
+  await page.waitForURL('http://localhost:3000/profile');
+  assert.strictEqual(page.url(), 'http://localhost:3000/profile');
+
+  // 3. Agora sim, clica no BOTÃO de logout "Sair" (Role: 'button')
   await page.getByRole('button', { name: 'Sair' }).click();
-
 });
 
 Then('eu devo ser redirecionado para a página de login', async function () {
